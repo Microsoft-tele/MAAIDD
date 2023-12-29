@@ -1,7 +1,7 @@
 # MAAIDD
 
 ## Introduce
-This project focus on analysing the efficiency on different Multi-agent dynamic system and graph.
+This project focus on analysing the effect on different Multi-agent dynamic system and graph.
 
 ## Dynamic function
 

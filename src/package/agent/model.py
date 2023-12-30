@@ -1,4 +1,3 @@
-import random
 import sys
 import pathlib
 
@@ -14,11 +13,7 @@ import mesa
 import numpy as np
 import src.package.h.config as cfg
 
-from src.package.h.logger import SingletonLogger
 from src.package.agent.agent import SingleAgent
-from src.package.topology.topology import Topology
-
-logger_ins = SingletonLogger()
 
 
 class MyModel(mesa.Model):
@@ -27,41 +22,56 @@ class MyModel(mesa.Model):
     Anonymous model
     """
 
-    def __init__(self, num: int, adjacency_matrix: np.ndarray, sample_interval: float, *args: Any, **kwargs: Any):
+    def __init__(self, num: int, adjacency_matrix: np.ndarray, sample_interval: float, init_states=None, *args: Any, **kwargs: Any):
         """
         Initialization method
         :param num: number of agents
         :param adjacency_matrix: initial adjacency matrix
+        :param sample_interval:
+        :param init_states: must make sure your adj is shape of [num, num] and init_state is [num, 2]: ndarray
         :param args:
         :param kwargs:
         """
         super().__init__(*args, **kwargs)
+        from run import logger_ins
+        self.logger_ins = logger_ins
         self.num_agents = num  # number of agents
         self.schedule = mesa.time.RandomActivation(self)  # controller of mesa(python package)
         self.t = 0  # current time
         self.sample_interval = sample_interval  # sample interval, in this sample is 0.1
-
         self.adj = adjacency_matrix  # adjacency load from another class
         degrees = np.sum(self.adj, axis=0)  # degree matrix calculate from adjacency
         self.laplacian_matrix = np.diag(degrees) - self.adj  # laplacian matrix which is L = D - W
+        self.df_data: pd.DataFrame = pd.DataFrame()  # used to save collected data
+        self._set_fig()  # prepare drawing picture
+        self._set_agents(init_states)  # add all agents to schedule
 
-        self.df_data = None  # used to save collected data
-
+    def _set_agents(self, init_states=None):
+        """
+        Sets up the initial agents
+        :param init_states:
+        :return:
+        """
         # add every single agent to schedule
-        init_states = [
-            [1.25, 0.05],
-            [-0.5, 0.175],
-            [0, 0],
-            [1.5, -0.75],
-            [3.0, -0.65],
-            [1.75, 0.45],
-            [0.55, 0.6]
-        ]
+        if init_states is None:
+            if self.num_agents != 7:
+                raise Exception("Number of agents is not matched to initial states")
+            init_states = [
+                [1.25, 0.05],
+                [-0.5, 0.175],
+                [0, 0],
+                [1.5, -0.75],
+                [3.0, -0.65],
+                [1.75, 0.45],
+                [0.55, 0.6]
+            ]
+
         # we can load this from a random list, this init_state matrix is a sample from book
         for unique_id in range(self.num_agents):
             agent = SingleAgent(unique_id, self, init_x=init_states[unique_id][0], init_y=init_states[unique_id][1])
             self.schedule.add(agent)
 
+    def _set_fig(self):
         # some attribute for drawing
         self.fig, self.ax = plt.subplots(figsize=(10, 10))
         plt.ion()
@@ -128,16 +138,16 @@ class MyModel(mesa.Model):
             self._calculate_new_control_variable()
 
         self.schedule.step()
-        if cfg.is_draw_process:
+
+        if cfg.is_draw_process:  # whether drawing dynamic process
             self._update_plot()
 
         for ith in range(len(self.schedule.agents)):
-            logger_ins.logger.info(f"Agent Position: {self.schedule.agents[ith].__str__()}")
+            self.logger_ins.logger.info(f"Agent Position: {self.schedule.agents[ith].__str__()}")
 
         agent_series_list = [agent.__to_pd_series__() for agent in self.schedule.agents]
         df_agents = pd.concat(agent_series_list, axis=1).T
         self.df_data = pd.concat([self.df_data, df_agents], axis=0)
-        return df_agents
 
 
 if __name__ == "__main__":

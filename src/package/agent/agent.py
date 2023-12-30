@@ -2,15 +2,14 @@ import numpy as np
 import pandas as pd
 from mesa import Agent, Model
 
-from src.package.h.logger import SingletonLogger
-
-logger_ins = SingletonLogger()
-
 
 class SingleAgent(Agent):
-    def __init__(self, unique_id: int, model: Model, init_x=0., init_y=0., init_ux=0., init_uy=0., init_dot_x=0., init_dot_y=0.):
+    def __init__(self, unique_id: int, model: Model, init_x=0., init_y=0., init_ux=0., init_uy=0., init_dot_x=0.,
+                 init_dot_y=0.):
         super().__init__(unique_id, model)
         # Attributes of every single agent [x, y] which is info of position and control variable(u)
+        from run import logger_ins
+        self.logger_ins = logger_ins
         self.x = init_x
         self.y = init_y
         self.ux = init_ux
@@ -37,6 +36,7 @@ class SingleAgent(Agent):
 
     def state_x(self, ith: int):
         self.__str__()
+
         # above code is in order to ignore err from pycharm, not important
 
         def x1(t):
@@ -50,7 +50,7 @@ class SingleAgent(Agent):
         if ith == 1:
             return x2
         else:
-            logger_ins.logger.error("Input err for ith")
+            self.logger_ins.logger.error("Input err for ith")
             raise RuntimeError("Invalid input")
 
     def dynamic_update(self):

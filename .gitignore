@@ -1,0 +1,4 @@
+/result
+*.csv
+*.log
+*.pickle

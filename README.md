@@ -9,7 +9,13 @@ $$
 \dot x_i(t)=f(x_i(t),t)- \alpha \sum_{j=1}^{N}  l_{ij}x_j(t_k), t_k \le t < t_{k+1},k \in N, i=1,2, \cdots, N
 $$
 
-## 1.2 Project skeleton
+## 1.2 States update
+
+$$
+\hat x_i^{t+1} = x_i^{t} + sample_time * \dot x_i^{t}
+$$
+
+## 1.3 Project skeleton
 
 - 📁 **src**: Source code of the project.
   - 📁 **package**
@@ -86,6 +92,6 @@ Before run this project, you should change it follow your project
 
 Please open issue following request
 
-# 5. Connect us
+# 5. Contact us
 
 EthanLee0302@proton.me

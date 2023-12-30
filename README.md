@@ -12,7 +12,7 @@ $$
 ## 1.2 States update
 
 $$
-\hat x_i^{t+1} = x_i^{t} + sample_time * \dot x_i^{t}
+\hat x_i^{t+1} = x_i^{t} + sampleTime * \dot x_i^{t}
 $$
 
 ## 1.3 Project skeleton

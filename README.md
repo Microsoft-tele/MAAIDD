@@ -1,5 +1,9 @@
 # MAAIDD
 
+Please check more details here
+
+Document: [GitBook](https://losfurinas-organization.gitbook.io/maaidd/)
+
 # 1. Introduce
 This project focus on analysing the effect on different Multi-agent dynamic system and graph.
 

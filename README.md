@@ -43,6 +43,7 @@ $$
 - 📄 **requirements.txt**: List of project dependencies.
 - 📄 **.gitignore**: Gitignore file.
 - 📄 **README.md**: README
+- 📄 **run.py**: Entry of whole project
 
 # 2. Usage
 

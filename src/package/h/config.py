@@ -11,7 +11,7 @@ sys.path.append(str(project_path))
 
 node_num = 7  # node number
 sample_interval = 0.01  # sampling interval
-total_duration = 20  # total sampling time, units (s)
+total_duration = 100  # total sampling time, units (s)
 spread_interval_time = 0.4  # duration between control variable spread
 alpha = 1.5  # which is strength among different agents
 
@@ -51,6 +51,11 @@ class ProjectPath(object):
         dir_path = os.path.join(self.result_path_dir, self.exp_id, "log")
         os.makedirs(dir_path, exist_ok=True)
         return os.path.join(os.path.join(dir_path, f"log_{self.exp_id}.log"))
+
+    def get_readme_save_path(self):
+        dir_path = os.path.join(self.result_path_dir, self.exp_id)
+        os.makedirs(dir_path, exist_ok=True)
+        return os.path.join(os.path.join(dir_path, f"README.md"))
 
 
 if __name__ == '__main__':

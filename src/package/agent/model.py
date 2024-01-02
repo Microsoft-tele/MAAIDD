@@ -95,7 +95,8 @@ class MyModel(mesa.Model):
         # convert list to np, which could be convenient to calculate matrix
         current_state = np.array(current_state)
         # calculate new control variable from current position
-        new_control_matrix = -alpha * np.dot(self.laplacian_matrix, current_state)
+        # TODO: update here to change laplacian or adjacency
+        new_control_matrix = -alpha * np.dot(self.adj, current_state)
 
         for unique_id in range(self.num_agents):
             # put new control variable to every single agent

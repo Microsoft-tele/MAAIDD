@@ -10,7 +10,8 @@ from src.package.agent.model import MyModel
 import numpy as np
 
 current_time = time.strftime("%Y%m%d-%H%M")
-my_path = cfg.ProjectPath(current_time)
+exp_id = f"{cfg.node_num}-{cfg.total_duration}-{current_time}"
+my_path = cfg.ProjectPath(exp_id=exp_id)
 logger_ins = SingletonLogger(my_path)
 
 
@@ -55,6 +56,23 @@ class Main(object):
         model.df_data.to_csv(my_path.get_data_save_path(), compression="gzip")
         with open(my_path.get_topology_save_path(), "wb") as f:
             pickle.dump(sample_topology, f)
+
+        readme = f""" # {my_path.exp_id}
+        
+Hyperparameters        | Value 
+|----------------------|---------------|
+| `node_num`           | {cfg.node_num} |
+| `sample_interval`    | {cfg.sample_interval} |
+| `total_duration`     | {cfg.total_duration} |
+| `spread_interval_time`| {cfg.spread_interval_time} |
+| `alpha`              | {cfg.alpha} |
+| `is_random_graph`    | {cfg.is_random_graph} |
+| `is_draw_process`    | {cfg.is_draw_process} |
+| `is_show_log`        | {cfg.is_show_log}   |      
+        """
+
+        with open(my_path.get_readme_save_path(), "w+") as f:
+            f.write(readme)
 
         logger_ins.logger.info("Finished generating, please check the output at {}".format(my_path.get_data_save_path()))
         logger_ins.logger.info("Finished generating, please check the output at {}".format(my_path.get_topology_save_path()))

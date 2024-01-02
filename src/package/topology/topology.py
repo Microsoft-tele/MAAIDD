@@ -60,7 +60,8 @@ class Topology(object):
         for i in range(num_nodes):
             for j in range(num_nodes):
                 if i != j and np.random.rand() < avg_out_degree / num_nodes:
-                    weight = np.random.uniform(1.0, 5.0)  # 随机生成权重
+                    # TODO: update whether using weighted edges
+                    weight = np.random.uniform(1, 1)  # 随机生成权重
                     G.add_edge(i, j, weight=weight)
 
         # sparse matrix

@@ -23,6 +23,22 @@ class Main(object):
         # TODO: If you want add args from terminal, you can ues args package
         pass
 
+    def __to_readme__(self):
+        self.__str__()
+        return f""" # {my_path.exp_id}
+        
+Hyperparameters        | Value 
+|----------------------|---------------|
+| `node_num`           | {cfg.node_num} |
+| `sample_interval`    | {cfg.sample_interval} |
+| `total_duration`     | {cfg.total_duration} |
+| `spread_interval_time`| {cfg.spread_interval_time} |
+| `alpha`              | {cfg.alpha} |
+| `is_random_graph`    | {cfg.is_random_graph} |
+| `is_draw_process`    | {cfg.is_draw_process} |
+| `is_show_log`        | {cfg.is_show_log}   |      
+        """
+
     def run(self):
         self.__str__()
         # TODO: set graph here
@@ -33,10 +49,11 @@ class Main(object):
             sample_topology, laplacian = Topology().generate_sample_topology()  # laplacian is useless. please notice, we calculate it in inner function
             init_states = None
 
-        interval_time_x = cfg.sample_interval  # sampling interval unit(s)
-        model = MyModel(num=cfg.node_num, adjacency_matrix=sample_topology, sample_interval=interval_time_x, init_states=init_states)
+        model = MyModel(num=cfg.node_num, adjacency_matrix=sample_topology, sample_interval=cfg.sample_interval,
+                        init_states=init_states)
         total_duration = cfg.total_duration  # total sample duration
         interval_time_u = cfg.spread_interval_time
+        interval_time_x = cfg.sample_interval  # sampling interval unit(s)
         interval_step_u = int(interval_time_u // interval_time_x)
         # generate timestamp list
         time_stamps = np.arange(0, total_duration + interval_time_x, interval_time_x)
@@ -57,25 +74,13 @@ class Main(object):
         with open(my_path.get_topology_save_path(), "wb") as f:
             pickle.dump(sample_topology, f)
 
-        readme = f""" # {my_path.exp_id}
-        
-Hyperparameters        | Value 
-|----------------------|---------------|
-| `node_num`           | {cfg.node_num} |
-| `sample_interval`    | {cfg.sample_interval} |
-| `total_duration`     | {cfg.total_duration} |
-| `spread_interval_time`| {cfg.spread_interval_time} |
-| `alpha`              | {cfg.alpha} |
-| `is_random_graph`    | {cfg.is_random_graph} |
-| `is_draw_process`    | {cfg.is_draw_process} |
-| `is_show_log`        | {cfg.is_show_log}   |      
-        """
-
         with open(my_path.get_readme_save_path(), "w+") as f:
-            f.write(readme)
+            f.write(self.__to_readme__())
 
-        logger_ins.logger.info("Finished generating, please check the output at {}".format(my_path.get_data_save_path()))
-        logger_ins.logger.info("Finished generating, please check the output at {}".format(my_path.get_topology_save_path()))
+        logger_ins.logger.info(
+            "Finished generating, please check the output at {}".format(my_path.get_data_save_path()))
+        logger_ins.logger.info(
+            "Finished generating, please check the output at {}".format(my_path.get_topology_save_path()))
 
 
 if __name__ == "__main__":

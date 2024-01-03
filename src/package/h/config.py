@@ -9,13 +9,13 @@ sys.path.append(str(project_path))
 
 # TODO: Should set const config variable to yaml or json
 
-node_num = 7  # node number
+node_num = 50  # node number
 sample_interval = 0.01  # sampling interval
-total_duration = 100  # total sampling time, units (s)
+total_duration = 80  # total sampling time, units (s)
 spread_interval_time = 0.4  # duration between control variable spread
 alpha = 1.5  # which is strength among different agents
 
-is_random_graph = False  # Remember if you set this as False, node number must be 7
+is_random_graph = True  # Remember if you set this as False, node number must be 7
 is_draw_process = False  # whether drawing track draft when running simulation, if you want to use this function, you should rewrite it
 is_show_log = True  # True: print all log on terminal, otherwise, just print log to file
 

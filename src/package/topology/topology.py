@@ -7,6 +7,7 @@ class Topology(object):
     """
     Topology class
     """
+
     def __init__(self):
         # TODO: you could add yourself parameters at here
         pass
@@ -74,9 +75,40 @@ class Topology(object):
 
         return adjacency_matrix, laplacian_matrix
 
+    @staticmethod
+    def generate_er_ws_ba_graph(num_nodes: int, net="ER") -> (np.ndarray, np.ndarray):
+        """
+        Generate ER WS BA graph
+        :param num_nodes:
+        :param net: "ER" or "WS" or "BA"
+        :return: adjacency matrix
+        """
+        graph = None
+        if net == 'ER':
+            print('ER')
+            graph = nx.random_graphs.erdos_renyi_graph(num_nodes, 0.2)
+
+        if net == 'WS':
+            print('WS')
+            graph = nx.random_graphs.watts_strogatz_graph(num_nodes, 2, 0.3)
+
+        if net == 'BA':
+            print('BA')
+            graph = nx.random_graphs.barabasi_albert_graph(num_nodes, 1)
+        # TODO: nx.to_scipy_sparse_matrix has been deprecated
+        adj = nx.to_scipy_sparse_array(graph, format='csr')
+        # cal laplacian matrix
+        degrees = np.array(adj.sum(axis=1)).flatten()
+        laplacian_matrix = csr_matrix(np.diag(degrees) - adj)
+        laplacian_array = laplacian_matrix.toarray()
+
+        return adj.toarray(), laplacian_array
+
 
 if __name__ == '__main__':
-    topo = Topology()
-    adjacency, laplacian = topo.generate_random_topology(10, 3)
+    adjacency, laplacian = Topology.generate_er_ws_ba_graph(num_nodes=10, net="ER")
+    # adjacency, laplacian = Topology.generate_random_topology(num_nodes=10, avg_out_degree=3)
     print(adjacency)
     print(adjacency.shape)
+    print(laplacian)
+    print(laplacian.shape)

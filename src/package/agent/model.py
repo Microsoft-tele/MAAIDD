@@ -1,18 +1,15 @@
 import sys
 import pathlib
-
+import mesa
 import pandas as pd
+import numpy as np
 
 project_path = pathlib.Path(__file__).resolve().parents[3]
 sys.path.append(str(project_path))
 
 from typing import Any
 from matplotlib import pyplot as plt
-
-import mesa
-import numpy as np
-import src.package.h.config as cfg
-
+# import src.package.h.config as cfg
 from src.package.agent.agent import SingleAgent
 
 
@@ -81,7 +78,7 @@ class MyModel(mesa.Model):
         # 添加图例
         self.ax.legend()
 
-    def _calculate_new_control_variable(self, alpha=cfg.alpha):
+    def _calculate_new_control_variable(self, alpha: float):
         """
         calculate latest u and update self.u
         """
@@ -133,14 +130,14 @@ class MyModel(mesa.Model):
         # 在绘制中暂停，以便图形可以更新
         plt.pause(0.001)
 
-    def step(self, is_update_control=False):
+    def step(self, is_update_control=False, alpha=0.):
         # if attach condition then change control variable
         if is_update_control:
-            self._calculate_new_control_variable()
+            self._calculate_new_control_variable(alpha=alpha)
 
         self.schedule.step()
-
-        if cfg.is_draw_process:  # whether drawing dynamic process
+        from src.package.h.config import is_draw_process
+        if is_draw_process:  # whether drawing dynamic process
             self._update_plot()
 
         for ith in range(len(self.schedule.agents)):

@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # 从 gzip 压缩文件读取数据
-df_collect = pd.read_csv("D:\\git\\MAAIDD\\result\\50-80-20240103-1926\\data\\df_collect", compression="gzip")
+df_collect = pd.read_csv("D:\\git\\MAAIDD\\result\\100-100-20240107-2359\\data\\df_collect", compression="gzip")
 
 # 选择 agent_id 列为 1 的行
 df_list = []

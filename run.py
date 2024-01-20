@@ -46,7 +46,7 @@ Hyperparameters        | Value
         if cfg.network is not None:
             # TODO: loading topology from AIDD is what next we should be going
             if cfg.network["is_load_from_file"] is True:
-                with open("D:/git/MAAIDD/result/100-100-20240107-2359/topology/topology.pickle", "rb") as f:
+                with open("C:/Users/Nahida/Desktop/git/AIDD-main/AIDD/ma_model/adj_MA_100_id1.pkl", "rb") as f:
                     sample_topology: np.ndarray = pickle.load(f)
 
                 with open("D:/git/MAAIDD/result/100-100-20240107-2359/init_state/init_state.pickle", "rb") as f:

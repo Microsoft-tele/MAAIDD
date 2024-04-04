@@ -5,7 +5,7 @@ Please check more details here
 Document: [GitBook](https://losfurinas-organization.gitbook.io/maaidd/)
 
 # 1. Introduce
-This project focus on analysing the effect on different Multi-agent dynamic system and graph.
+This project focuses on analysing the effect of different Multi-agent dynamic systems and graphs.
 
 ## 1.1 Dynamic function
 
@@ -47,7 +47,7 @@ $$
 
 # 2. Usage
 
-Strongly recommend use miniconda or conda
+Strongly recommend the use Miniconda or conda
 ```sh
 conda create --name=MAAIDD python=3.8
 conda activate MAAIDD
@@ -64,9 +64,9 @@ pip install -r ./requirement.txt
 ```
 ## 2.3. Run and save data
 
-- You have no need to add any parameters when running, all parameters have been set below
+- You do not need to add any parameters when running, all parameters have been set below
 
-- Please confirm you have changed correct arguments at config.py which relates to final data saving path
+- Please confirm you have changed the correct arguments at config.py which relates to the final data saving path
 ```sh
 python run.py
 ```
@@ -75,9 +75,9 @@ python run.py
 
 All parameters have been set at src/package/h/config.py
 
-Maybe later, we will deprecate .py as config file, but moving some const hyperparameters to .yaml
+Maybe later, we will deprecate .py as a config file, but moving some const hyperparameters to .yaml
 
-Before run this project, you should change it follow your project
+Before running this project, you should change it following your project
 
 ## 3.1. parameters introduce
 
@@ -95,8 +95,4 @@ Before run this project, you should change it follow your project
 
 # 4. Issue
 
-Please open issue following request
-
-# 5. Contact us
-
-EthanLee0302@proton.me
+Please open the issue following the request
